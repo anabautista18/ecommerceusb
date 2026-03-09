@@ -2,27 +2,57 @@ package co.edu.usbcali.ecommerceusb.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.OffsetDateTime;
 
-@Entity
-@Table(name = "cart_items")
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(
+        name = "cart_items",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uq_cart_product",
+                        columnNames = {"cart_id", "product_id"}
+                )
+        },
+        indexes = {
+                @Index(name = "idx_cart_items_cart", columnList = "cart_id"),
+                @Index(name = "idx_cart_items_product", columnList = "product_id")
+        }
+)
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
+    // 🔹 FK a carts (ON DELETE CASCADE)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "cart_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_cart_items_cart"),
+            referencedColumnName = "id"
+
+            )
     private Cart cart;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    // 🔹 FK a products (ON DELETE RESTRICT)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "product_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_cart_items_product"),
+            referencedColumnName = "id"
+
+            )
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(nullable = false)
     private Integer quantity;
 
     @Column(name = "created_at", nullable = false)
@@ -30,4 +60,23 @@ public class CartItem {
 
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = OffsetDateTime.now();
+        this.updatedAt = OffsetDateTime.now();
+        validate();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = OffsetDateTime.now();
+        validate();
+    }
+
+    private void validate() {
+        if (quantity == null || quantity <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que 0");
+        }
+    }
 }

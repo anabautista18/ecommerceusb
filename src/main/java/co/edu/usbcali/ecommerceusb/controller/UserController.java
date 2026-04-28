@@ -1,44 +1,44 @@
+
+
 package co.edu.usbcali.ecommerceusb.controller;
 
 import co.edu.usbcali.ecommerceusb.dto.UserResponse;
+import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
 import co.edu.usbcali.ecommerceusb.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
-@RequiredArgsConstructor
-public class UserController {
+@RequestMapping
+public class UsersController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> users = userService.getUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @GetMapping("/all")
+    public List<UserResponse> getAll(){
+        return userService.getUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
-        UserResponse user = userService.getUserById(id);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) throws Exception{
+        return new ResponseEntity<>(userService.getUserById(id),
+                HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email) {
-        UserResponse user = userService.getUserByEmail(email);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email) throws Exception {
+        return new ResponseEntity<>(
+                userService.getUserByEmail(email),
+                HttpStatus.OK
+        );
     }
+
 }

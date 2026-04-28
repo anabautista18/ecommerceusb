@@ -1,6 +1,8 @@
 package co.edu.usbcali.ecommerceusb.mapper;
 
+import co.edu.usbcali.ecommerceusb.dto.CreateUserRequest;
 import co.edu.usbcali.ecommerceusb.dto.UserResponse;
+import co.edu.usbcali.ecommerceusb.model.DocumentType;
 import co.edu.usbcali.ecommerceusb.model.User;
 
 import java.util.ArrayList;
@@ -31,5 +33,19 @@ public class UserMapper {
             userResponseList.add(userResponse);
         }
         return userResponseList;
+    }
+
+
+    public static User createUserRequestToUser(CreateUserRequest createUserRequest,
+                                               DocumentType documentType){
+
+        //convertir el objeto createUserRequest a User
+
+        return User.Builder()
+                .
+
+
+
+
     }
 }

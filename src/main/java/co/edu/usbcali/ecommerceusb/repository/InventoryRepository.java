@@ -1,12 +1,12 @@
 package co.edu.usbcali.ecommerceusb.repository;
 
-import co.edu.usbcali.ecommerceusb.model.DocumentType;
+import co.edu.usbcali.ecommerceusb.model.Inventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface DocumentTypeRepository extends JpaRepository<DocumentType, Long> {
-    Optional<DocumentType> findByCode(String code);
-} 
+public interface InventoryRepository extends JpaRepository<Inventory, Long> {
+    Optional<Inventory> findByProductId(Long productId);
+}

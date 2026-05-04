@@ -1,5 +1,6 @@
 package co.edu.usbcali.ecommerceusb.service.impl;
 
+import co.edu.usbcali.ecommerceusb.dto.DocumentTypeRequest;
 import co.edu.usbcali.ecommerceusb.dto.DocumentTypeResponse;
 import co.edu.usbcali.ecommerceusb.mapper.DocumentTypeMapper;
 import co.edu.usbcali.ecommerceusb.model.DocumentType;
@@ -18,44 +19,55 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
 
     @Override
     public List<DocumentTypeResponse> getAllDocumentTypes() {
-
         List<DocumentType> documentTypes = documentTypeRepository.findAll();
         if (documentTypes.isEmpty()) {
             return List.of();
         }
 
-        return DocumentTypeMapper.modelToDocumentTypeResponseList(documentTypes);
+        return DocumentTypeMapper.toDocumentTypeResponseList(documentTypes);
     }
 
     @Override
-    public DocumentTypeResponse getDocumentTypeById(Integer id) {
-
+    public DocumentTypeResponse getDocumentTypeById(Long id) {
         if (id == null) {
             throw new IllegalArgumentException("Debe ingresar el id para buscar");
         }
 
         DocumentType documentType = documentTypeRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                String.format("Tipo de documento no encontrado con el id: %d", id)
-                        ));
+                .orElseThrow(() -> new RuntimeException(String.format("Tipo de documento no encontrado con el id: %d", id)));
 
-        return DocumentTypeMapper.modelToDocumentTypeResponse(documentType);
+        return DocumentTypeMapper.toDocumentTypeResponse(documentType);
+    }
+
+    @Override
+    public DocumentTypeResponse save(DocumentTypeRequest documentTypeRequest) {
+        if (documentTypeRequest == null) {
+            throw new IllegalArgumentException("El request de tipo de documento no puede ser nulo");
+        }
+
+        if (documentTypeRequest.getCode() == null || documentTypeRequest.getCode().isBlank()) {
+            throw new IllegalArgumentException("El código no puede ser nulo ni vacío");
+        }
+
+        if (documentTypeRequest.getName() == null || documentTypeRequest.getName().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo ni vacío");
+        }
+
+        DocumentType documentType = DocumentTypeMapper.toDocumentType(documentTypeRequest);
+        documentType = documentTypeRepository.save(documentType);
+
+        return DocumentTypeMapper.toDocumentTypeResponse(documentType);
     }
 
     @Override
     public DocumentTypeResponse getDocumentTypeByCode(String code) {
-
         if (code == null || code.isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar el código para buscar");
         }
 
         DocumentType documentType = documentTypeRepository.findByCode(code)
-                .orElseThrow(() ->
-                        new RuntimeException(
-                                String.format("Tipo de documento no encontrado con el código: %s", code)
-                        ));
+                .orElseThrow(() -> new RuntimeException(String.format("Tipo de documento no encontrado con el código: %s", code)));
 
-        return DocumentTypeMapper.modelToDocumentTypeResponse(documentType);
+        return DocumentTypeMapper.toDocumentTypeResponse(documentType);
     }
 }

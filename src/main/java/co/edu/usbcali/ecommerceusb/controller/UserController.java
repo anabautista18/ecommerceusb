@@ -2,43 +2,42 @@
 
 package co.edu.usbcali.ecommerceusb.controller;
 
+import co.edu.usbcali.ecommerceusb.dto.CreateUserRequest;
 import co.edu.usbcali.ecommerceusb.dto.UserResponse;
-import co.edu.usbcali.ecommerceusb.repository.UsersRepository;
 import co.edu.usbcali.ecommerceusb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping
-public class UsersController {
+@RequestMapping("/api/users")
+public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/all")
-    public List<UserResponse> getAll(){
+    public List<UserResponse> getAll() {
         return userService.getUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Integer id) throws Exception{
-        return new ResponseEntity<>(userService.getUserById(id),
-                HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) throws Exception {
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserResponse> getUserByEmail(@PathVariable String email) throws Exception {
-        return new ResponseEntity<>(
-                userService.getUserByEmail(email),
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
+    @PostMapping
+    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) throws Exception {
+        UserResponse createdUser = userService.createUser(request);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
 }
+

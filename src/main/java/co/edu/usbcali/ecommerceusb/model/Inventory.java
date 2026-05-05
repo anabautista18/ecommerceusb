@@ -13,6 +13,10 @@ import java.time.OffsetDateTime;
 @Table(name = "inventory")
 public class Inventory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "product_id",

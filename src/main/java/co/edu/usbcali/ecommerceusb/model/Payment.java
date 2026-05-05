@@ -3,6 +3,7 @@ package co.edu.usbcali.ecommerceusb.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Data
@@ -25,6 +26,12 @@ public class Payment {
             referencedColumnName = "id"
     )
     private Order order;
+
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
+
+    @Column(name = "payment_method", nullable = false)
+    private String paymentMethod;
 
     @Column(name = "status", nullable = false)
     private String status;
@@ -55,11 +62,17 @@ public class Payment {
     }
 
     private void validate() {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El monto debe ser mayor que 0");
+        }
+        if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
+            throw new IllegalArgumentException("El metodo de pago no puede ser nulo o vacio");
+        }
         if (status == null || status.trim().isEmpty()) {
-            throw new IllegalArgumentException("El estado no puede ser nulo o vacío");
+            throw new IllegalArgumentException("El estado no puede ser nulo o vacio");
         }
         if (idempotencyKey == null || idempotencyKey.trim().isEmpty()) {
-            throw new IllegalArgumentException("La clave de idempotencia no puede ser nula o vacía");
+            throw new IllegalArgumentException("La clave de idempotencia no puede ser nula o vacia");
         }
     }
 }

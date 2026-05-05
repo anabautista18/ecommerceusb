@@ -16,7 +16,7 @@ public class OrderItemMapper {
                 .orderId(orderItem.getOrder() != null ? orderItem.getOrder().getId() : null)
                 .productId(orderItem.getProduct() != null ? orderItem.getProduct().getId() : null)
                 .quantity(orderItem.getQuantity())
-                .unitPrice(orderItem.getUnitPrice())
+                .unitPrice(orderItem.getUnitPriceSnapshot())
                 .build();
     }
 
@@ -33,7 +33,8 @@ public class OrderItemMapper {
                 .order(order)
                 .product(product)
                 .quantity(request.getQuantity())
-                .unitPrice(request.getUnitPrice())
+                .unitPriceSnapshot(request.getUnitPrice())
+                .lineTotal(request.getUnitPrice().multiply(java.math.BigDecimal.valueOf(request.getQuantity())))
                 .build();
     }
 }

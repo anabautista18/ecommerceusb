@@ -13,6 +13,10 @@ import java.time.OffsetDateTime;
 @Table(name = "product_categories")
 public class ProductCategory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "product_id",
@@ -22,7 +26,6 @@ public class ProductCategory {
     )
     private Product product;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "category_id",
@@ -52,6 +55,5 @@ public class ProductCategory {
     }
 
     private void validate() {
-        // No specific validation needed for junction table
     }
 }

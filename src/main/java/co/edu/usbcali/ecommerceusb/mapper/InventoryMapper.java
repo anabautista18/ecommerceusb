@@ -13,7 +13,7 @@ public class InventoryMapper {
         return InventoryResponse.builder()
                 .id(inventory.getId())
                 .productId(inventory.getProduct() != null ? inventory.getProduct().getId() : null)
-                .quantity(inventory.getQuantity())
+                .quantity(inventory.getStock())
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class InventoryMapper {
     public static Inventory toInventory(InventoryRequest request, Product product) {
         return Inventory.builder()
                 .product(product)
-                .quantity(request.getQuantity())
+                .stock(request.getQuantity())
                 .build();
     }
 }

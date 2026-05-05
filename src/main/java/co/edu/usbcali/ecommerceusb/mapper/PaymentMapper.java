@@ -7,6 +7,7 @@ import co.edu.usbcali.ecommerceusb.model.Order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PaymentMapper {
     public static PaymentResponse toPaymentResponse(Payment payment) {
@@ -33,6 +34,7 @@ public class PaymentMapper {
                 .amount(request.getAmount())
                 .paymentMethod(request.getPaymentMethod())
                 .status(request.getStatus())
+                .idempotencyKey(UUID.randomUUID().toString())
                 .build();
     }
 }

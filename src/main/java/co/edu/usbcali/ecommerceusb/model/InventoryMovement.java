@@ -19,12 +19,12 @@ public class InventoryMovement {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
-            name = "product_id",
+            name = "inventory_id",
             nullable = false,
-            foreignKey = @ForeignKey(name = "fk_inventory_movements_product"),
+            foreignKey = @ForeignKey(name = "fk_inventory_movements_inventory"),
             referencedColumnName = "id"
     )
-    private Product product;
+    private Inventory inventory;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
@@ -32,13 +32,13 @@ public class InventoryMovement {
             foreignKey = @ForeignKey(name = "fk_inventory_movements_order"),
             referencedColumnName = "id"
     )
-    private Order order; // nullable
+    private Order order;
 
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "movement_type", nullable = false)
+    private String movementType;
 
-    @Column(name = "qty", nullable = false)
-    private Integer qty;
+    @Column(name = "quantity", nullable = false)
+    private Integer quantity;
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
@@ -60,10 +60,10 @@ public class InventoryMovement {
     }
 
     private void validate() {
-        if (type == null || type.trim().isEmpty()) {
-            throw new IllegalArgumentException("El tipo no puede ser nulo o vacío");
+        if (movementType == null || movementType.trim().isEmpty()) {
+            throw new IllegalArgumentException("El tipo no puede ser nulo o vacio");
         }
-        if (qty == null || qty == 0) {
+        if (quantity == null || quantity == 0) {
             throw new IllegalArgumentException("La cantidad debe ser diferente de 0");
         }
     }

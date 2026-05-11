@@ -30,4 +30,9 @@ public class OrderController {
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request) {
         return new ResponseEntity<>(orderService.save(request), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderResponse> updateOrder(@PathVariable Long id, @RequestBody OrderRequest request) {
+        return new ResponseEntity<>(orderService.update(id, request), HttpStatus.OK);
+    }
 }

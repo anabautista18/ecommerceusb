@@ -8,4 +8,5 @@ public interface InventoryService {
     List<InventoryResponse> getAllInventories();
     InventoryResponse getInventoryById(Long id);
     InventoryResponse save(InventoryRequest inventoryRequest);
+    InventoryResponse update(Long id, InventoryRequest inventoryRequest);
 }

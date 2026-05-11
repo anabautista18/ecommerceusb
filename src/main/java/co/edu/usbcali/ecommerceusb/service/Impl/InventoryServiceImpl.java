@@ -46,6 +46,25 @@ public class InventoryServiceImpl implements InventoryService {
         return InventoryMapper.toInventoryResponse(inventoryRepository.save(InventoryMapper.toInventory(request, product)));
     }
 
+    @Override
+    public InventoryResponse update(Long id, InventoryRequest request) {
+        validateId(id, "inventario");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de inventario no puede ser nulo");
+        }
+        validateId(request.getProductId(), "producto");
+        if (request.getQuantity() == null || request.getQuantity() < 0) {
+            throw new IllegalArgumentException("La cantidad no puede ser negativa");
+        }
+        Inventory existingInventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Inventario no encontrado con el id: %d", id)));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new RuntimeException(String.format("Producto no encontrado con el id: %d", request.getProductId())));
+        existingInventory.setProduct(product);
+        existingInventory.setQuantity(request.getQuantity());
+        return InventoryMapper.toInventoryResponse(inventoryRepository.save(existingInventory));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

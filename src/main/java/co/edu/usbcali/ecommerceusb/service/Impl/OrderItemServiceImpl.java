@@ -56,6 +56,33 @@ public class OrderItemServiceImpl implements OrderItemService {
         return OrderItemMapper.toOrderItemResponse(orderItemRepository.save(OrderItemMapper.toOrderItem(request, order, product)));
     }
 
+    @Override
+    public OrderItemResponse update(Long id, OrderItemRequest request) {
+        validateId(id, "item de orden");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de item de orden no puede ser nulo");
+        }
+        validateId(request.getOrderId(), "orden");
+        validateId(request.getProductId(), "producto");
+        if (request.getQuantity() == null || request.getQuantity() <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que 0");
+        }
+        if (request.getUnitPrice() == null || request.getUnitPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio unitario debe ser mayor que 0");
+        }
+        OrderItem existingOrderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Item de orden no encontrado con el id: %d", id)));
+        Order order = orderRepository.findById(request.getOrderId())
+                .orElseThrow(() -> new RuntimeException(String.format("Orden no encontrada con el id: %d", request.getOrderId())));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new RuntimeException(String.format("Producto no encontrado con el id: %d", request.getProductId())));
+        existingOrderItem.setOrder(order);
+        existingOrderItem.setProduct(product);
+        existingOrderItem.setQuantity(request.getQuantity());
+        existingOrderItem.setUnitPrice(request.getUnitPrice());
+        return OrderItemMapper.toOrderItemResponse(orderItemRepository.save(existingOrderItem));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

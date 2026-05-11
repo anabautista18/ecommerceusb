@@ -30,4 +30,9 @@ public class CartItemController {
     public ResponseEntity<CartItemResponse> createCartItem(@RequestBody CartItemRequest request) {
         return new ResponseEntity<>(cartItemService.save(request), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CartItemResponse> updateCartItem(@PathVariable Long id, @RequestBody CartItemRequest request) {
+        return new ResponseEntity<>(cartItemService.update(id, request), HttpStatus.OK);
+    }
 }

@@ -8,4 +8,5 @@ public interface CartItemService {
     List<CartItemResponse> getAllCartItems();
     CartItemResponse getCartItemById(Long id);
     CartItemResponse save(CartItemRequest cartItemRequest);
+    CartItemResponse update(Long id, CartItemRequest cartItemRequest);
 }

@@ -30,4 +30,9 @@ public class InventoryMovementController {
     public ResponseEntity<InventoryMovementResponse> createInventoryMovement(@RequestBody InventoryMovementRequest request) {
         return new ResponseEntity<>(inventoryMovementService.save(request), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<InventoryMovementResponse> updateInventoryMovement(@PathVariable Long id, @RequestBody InventoryMovementRequest request) {
+        return new ResponseEntity<>(inventoryMovementService.update(id, request), HttpStatus.OK);
+    }
 }

@@ -30,4 +30,9 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> createPayment(@RequestBody PaymentRequest request) {
         return new ResponseEntity<>(paymentService.save(request), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PaymentResponse> updatePayment(@PathVariable Long id, @RequestBody PaymentRequest request) {
+        return new ResponseEntity<>(paymentService.update(id, request), HttpStatus.OK);
+    }
 }

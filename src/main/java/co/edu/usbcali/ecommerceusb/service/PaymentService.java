@@ -8,4 +8,5 @@ public interface PaymentService {
     List<PaymentResponse> getAllPayments();
     PaymentResponse getPaymentById(Long id);
     PaymentResponse save(PaymentRequest paymentRequest);
+    PaymentResponse update(Long id, PaymentRequest paymentRequest);
 }

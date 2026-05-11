@@ -50,6 +50,25 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 productCategoryRepository.save(ProductCategoryMapper.toProductCategory(request, product, category)));
     }
 
+    @Override
+    public ProductCategoryResponse update(Long id, ProductCategoryRequest request) {
+        validateId(id, "categoria de producto");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de categoria de producto no puede ser nulo");
+        }
+        validateId(request.getProductId(), "producto");
+        validateId(request.getCategoryId(), "categoria");
+        ProductCategory existingProductCategory = productCategoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Categoria de producto no encontrada con el id: %d", id)));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new RuntimeException(String.format("Producto no encontrado con el id: %d", request.getProductId())));
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException(String.format("Categoria no encontrada con el id: %d", request.getCategoryId())));
+        existingProductCategory.setProduct(product);
+        existingProductCategory.setCategory(category);
+        return ProductCategoryMapper.toProductCategoryResponse(productCategoryRepository.save(existingProductCategory));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

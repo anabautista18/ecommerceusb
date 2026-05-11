@@ -30,4 +30,9 @@ public class InventoryController {
     public ResponseEntity<InventoryResponse> createInventory(@RequestBody InventoryRequest request) {
         return new ResponseEntity<>(inventoryService.save(request), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<InventoryResponse> updateInventory(@PathVariable Long id, @RequestBody InventoryRequest request) {
+        return new ResponseEntity<>(inventoryService.update(id, request), HttpStatus.OK);
+    }
 }

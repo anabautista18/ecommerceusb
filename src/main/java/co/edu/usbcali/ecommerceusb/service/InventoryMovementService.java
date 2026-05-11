@@ -8,4 +8,5 @@ public interface InventoryMovementService {
     List<InventoryMovementResponse> getAllInventoryMovements();
     InventoryMovementResponse getInventoryMovementById(Long id);
     InventoryMovementResponse save(InventoryMovementRequest inventoryMovementRequest);
+    InventoryMovementResponse update(Long id, InventoryMovementRequest inventoryMovementRequest);
 }

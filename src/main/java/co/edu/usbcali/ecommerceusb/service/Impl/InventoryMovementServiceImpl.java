@@ -50,6 +50,29 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
                 inventoryMovementRepository.save(InventoryMovementMapper.toInventoryMovement(request, inventory)));
     }
 
+    @Override
+    public InventoryMovementResponse update(Long id, InventoryMovementRequest request) {
+        validateId(id, "movimiento de inventario");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de movimiento de inventario no puede ser nulo");
+        }
+        validateId(request.getInventoryId(), "inventario");
+        if (request.getQuantity() == null || request.getQuantity() == 0) {
+            throw new IllegalArgumentException("La cantidad debe ser diferente de 0");
+        }
+        if (request.getMovementType() == null || request.getMovementType().isBlank()) {
+            throw new IllegalArgumentException("El tipo de movimiento no puede ser nulo ni vacio");
+        }
+        InventoryMovement existingMovement = inventoryMovementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Movimiento de inventario no encontrado con el id: %d", id)));
+        Inventory inventory = inventoryRepository.findById(request.getInventoryId())
+                .orElseThrow(() -> new RuntimeException(String.format("Inventario no encontrado con el id: %d", request.getInventoryId())));
+        existingMovement.setInventory(inventory);
+        existingMovement.setQuantity(request.getQuantity());
+        existingMovement.setMovementType(request.getMovementType());
+        return InventoryMovementMapper.toInventoryMovementResponse(inventoryMovementRepository.save(existingMovement));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

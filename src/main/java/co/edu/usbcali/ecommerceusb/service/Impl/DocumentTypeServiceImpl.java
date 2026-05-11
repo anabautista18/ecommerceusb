@@ -60,6 +60,33 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     }
 
     @Override
+    public DocumentTypeResponse update(Long id, DocumentTypeRequest documentTypeRequest) {
+        if (id == null) {
+            throw new IllegalArgumentException("Debe ingresar el id para actualizar");
+        }
+        if (documentTypeRequest == null) {
+            throw new IllegalArgumentException("El request de tipo de documento no puede ser nulo");
+        }
+
+        if (documentTypeRequest.getCode() == null || documentTypeRequest.getCode().isBlank()) {
+            throw new IllegalArgumentException("El código no puede ser nulo ni vacío");
+        }
+
+        if (documentTypeRequest.getName() == null || documentTypeRequest.getName().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo ni vacío");
+        }
+
+        DocumentType existingDocumentType = documentTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Tipo de documento no encontrado con el id: %d", id)));
+
+        existingDocumentType.setCode(documentTypeRequest.getCode());
+        existingDocumentType.setName(documentTypeRequest.getName());
+        existingDocumentType = documentTypeRepository.save(existingDocumentType);
+
+        return DocumentTypeMapper.toDocumentTypeResponse(existingDocumentType);
+    }
+
+    @Override
     public DocumentTypeResponse getDocumentTypeByCode(String code) {
         if (code == null || code.isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar el código para buscar");

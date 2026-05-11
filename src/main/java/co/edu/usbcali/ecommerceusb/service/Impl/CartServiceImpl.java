@@ -46,6 +46,25 @@ public class CartServiceImpl implements CartService {
         return CartMapper.toCartResponse(cartRepository.save(CartMapper.toCart(request, user)));
     }
 
+    @Override
+    public CartResponse update(Long id, CartRequest request) {
+        validateId(id, "carrito");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de carrito no puede ser nulo");
+        }
+        validateId(request.getUserId(), "usuario");
+        if (request.getStatus() == null || request.getStatus().isBlank()) {
+            throw new IllegalArgumentException("El estado no puede ser nulo ni vacio");
+        }
+        Cart existingCart = cartRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Carrito no encontrado con el id: %d", id)));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException(String.format("Usuario no encontrado con el id: %d", request.getUserId())));
+        existingCart.setUser(user);
+        existingCart.setStatus(request.getStatus());
+        return CartMapper.toCartResponse(cartRepository.save(existingCart));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

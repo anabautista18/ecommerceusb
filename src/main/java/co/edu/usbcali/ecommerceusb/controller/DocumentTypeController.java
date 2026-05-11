@@ -34,5 +34,10 @@ public class DocumentTypeController {
         DocumentTypeResponse created = documentTypeService.save(request);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DocumentTypeResponse> updateDocumentType(@PathVariable Long id, @RequestBody DocumentTypeRequest request) {
+        return new ResponseEntity<>(documentTypeService.update(id, request), HttpStatus.OK);
+    }
 }
 

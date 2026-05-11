@@ -8,4 +8,5 @@ public interface OrderItemService {
     List<OrderItemResponse> getAllOrderItems();
     OrderItemResponse getOrderItemById(Long id);
     OrderItemResponse save(OrderItemRequest orderItemRequest);
+    OrderItemResponse update(Long id, OrderItemRequest orderItemRequest);
 }

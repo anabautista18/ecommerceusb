@@ -45,6 +45,27 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.toCategoryResponse(categoryRepository.save(CategoryMapper.toCategory(request, parent)));
     }
 
+    @Override
+    public CategoryResponse update(Long id, CategoryRequest request) {
+        validateId(id, "categoria");
+        if (request == null) {
+            throw new IllegalArgumentException("El request de categoria no puede ser nulo");
+        }
+        if (request.getName() == null || request.getName().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo ni vacio");
+        }
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Categoria no encontrada con el id: %d", id)));
+        Category parent = null;
+        if (request.getParentId() != null) {
+            parent = categoryRepository.findById(request.getParentId())
+                    .orElseThrow(() -> new RuntimeException(String.format("Categoria padre no encontrada con el id: %d", request.getParentId())));
+        }
+        existingCategory.setName(request.getName());
+        existingCategory.setParent(parent);
+        return CategoryMapper.toCategoryResponse(categoryRepository.save(existingCategory));
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para buscar " + name);

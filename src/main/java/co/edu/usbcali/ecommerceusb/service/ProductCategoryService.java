@@ -8,4 +8,5 @@ public interface ProductCategoryService {
     List<ProductCategoryResponse> getAllProductCategories();
     ProductCategoryResponse getProductCategoryById(Long id);
     ProductCategoryResponse save(ProductCategoryRequest productCategoryRequest);
+    ProductCategoryResponse update(Long id, ProductCategoryRequest productCategoryRequest);
 }

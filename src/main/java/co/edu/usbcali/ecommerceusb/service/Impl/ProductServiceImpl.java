@@ -47,6 +47,30 @@ public class ProductServiceImpl implements ProductService {
         return ProductMapper.toProductResponse(productRepository.save(ProductMapper.toProduct(request)));
     }
 
+    @Override
+    public ProductResponse update(Long id, ProductRequest request) {
+        validateId(id);
+        if (request == null) {
+            throw new IllegalArgumentException("El request de producto no puede ser nulo");
+        }
+        if (request.getName() == null || request.getName().isBlank()) {
+            throw new IllegalArgumentException("El nombre no puede ser nulo ni vacio");
+        }
+        if (request.getPrice() == null || request.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio debe ser mayor que 0");
+        }
+        if (request.getAvailable() == null) {
+            throw new IllegalArgumentException("El campo available no puede ser nulo");
+        }
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Producto no encontrado con el id: %d", id)));
+        existingProduct.setName(request.getName());
+        existingProduct.setDescription(request.getDescription());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setAvailable(request.getAvailable());
+        return ProductMapper.toProductResponse(productRepository.save(existingProduct));
+    }
+
     private void validateId(Long id) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para buscar producto");

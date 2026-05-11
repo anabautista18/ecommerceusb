@@ -8,4 +8,5 @@ public interface CartService {
     List<CartResponse> getAllCarts();
     CartResponse getCartById(Long id);
     CartResponse save(CartRequest cartRequest);
+    CartResponse update(Long id, CartRequest cartRequest);
 }

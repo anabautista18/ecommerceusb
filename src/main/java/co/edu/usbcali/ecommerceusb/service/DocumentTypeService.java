@@ -9,5 +9,6 @@ public interface DocumentTypeService {
     List<DocumentTypeResponse> getAllDocumentTypes();
     DocumentTypeResponse getDocumentTypeById(Long id);
     DocumentTypeResponse save(DocumentTypeRequest documentTypeRequest);
+    DocumentTypeResponse update(Long id, DocumentTypeRequest documentTypeRequest);
     DocumentTypeResponse getDocumentTypeByCode(String code);
 } 

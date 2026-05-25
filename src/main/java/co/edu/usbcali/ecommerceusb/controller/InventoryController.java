@@ -35,4 +35,15 @@ public class InventoryController {
     public ResponseEntity<InventoryResponse> updateInventory(@PathVariable Long id, @RequestBody InventoryRequest request) {
         return new ResponseEntity<>(inventoryService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
+        if (!inventoryRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        inventoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    
 }

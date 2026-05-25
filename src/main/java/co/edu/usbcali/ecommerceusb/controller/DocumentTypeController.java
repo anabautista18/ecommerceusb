@@ -39,5 +39,14 @@ public class DocumentTypeController {
     public ResponseEntity<DocumentTypeResponse> updateDocumentType(@PathVariable Long id, @RequestBody DocumentTypeRequest request) {
         return new ResponseEntity<>(documentTypeService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteDocumentType(@PathVariable Long id) {
+        if (!documentTypeRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        documentTypeRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 

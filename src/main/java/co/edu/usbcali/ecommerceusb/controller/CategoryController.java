@@ -35,4 +35,13 @@ public class CategoryController {
     public ResponseEntity<CategoryResponse> updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
         return new ResponseEntity<>(categoryService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        if (!categoryRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        categoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

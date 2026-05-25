@@ -35,4 +35,14 @@ public class InventoryMovementController {
     public ResponseEntity<InventoryMovementResponse> updateInventoryMovement(@PathVariable Long id, @RequestBody InventoryMovementRequest request) {
         return new ResponseEntity<>(inventoryMovementService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovement(@PathVariable Long id) {
+        if (!inventoryMovementRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        inventoryMovementRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

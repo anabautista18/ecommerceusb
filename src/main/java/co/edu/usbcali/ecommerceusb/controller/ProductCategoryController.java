@@ -35,4 +35,15 @@ public class ProductCategoryController {
     public ResponseEntity<ProductCategoryResponse> updateProductCategory(@PathVariable Long id, @RequestBody ProductCategoryRequest request) {
         return new ResponseEntity<>(productCategoryService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!productCategoryRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        productCategoryRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

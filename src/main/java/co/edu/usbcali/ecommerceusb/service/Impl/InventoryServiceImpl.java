@@ -61,7 +61,7 @@ public class InventoryServiceImpl implements InventoryService {
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new RuntimeException(String.format("Producto no encontrado con el id: %d", request.getProductId())));
         existingInventory.setProduct(product);
-        existingInventory.setQuantity(request.getQuantity());
+        existingInventory.setStock(request.getQuantity());
         return InventoryMapper.toInventoryResponse(inventoryRepository.save(existingInventory));
     }
 

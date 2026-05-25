@@ -79,7 +79,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         existingOrderItem.setOrder(order);
         existingOrderItem.setProduct(product);
         existingOrderItem.setQuantity(request.getQuantity());
-        existingOrderItem.setUnitPrice(request.getUnitPrice());
+        existingOrderItem.setUnitPriceSnapshot(request.getUnitPrice());
         return OrderItemMapper.toOrderItemResponse(orderItemRepository.save(existingOrderItem));
     }
 

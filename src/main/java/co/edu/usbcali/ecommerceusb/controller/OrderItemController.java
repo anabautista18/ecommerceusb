@@ -35,4 +35,14 @@ public class OrderItemController {
     public ResponseEntity<OrderItemResponse> updateOrderItem(@PathVariable Long id, @RequestBody OrderItemRequest request) {
         return new ResponseEntity<>(orderItemService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!orderItemRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        orderItemRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

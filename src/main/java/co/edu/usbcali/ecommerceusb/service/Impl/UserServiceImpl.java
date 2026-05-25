@@ -159,12 +159,10 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new Exception(String.format("Usuario no encontrado con el id: %d", id)));
 
-        // Check if email is being changed and if it's already taken
         if (!existingUser.getEmail().equals(createUserRequest.getEmail()) && userRepository.existsByEmail(createUserRequest.getEmail())) {
             throw new IllegalArgumentException("Ya existe un usuario con el email ingresado");
         }
 
-        // Check if document is being changed and if it's already taken
         if ((!existingUser.getDocumentNumber().equals(createUserRequest.getDocumentNumber()) || !existingUser.getDocumentType().getId().equals(createUserRequest.getDocumentTypeId()))
                 && userRepository.existsByDocumentNumberAndDocumentTypeId(createUserRequest.getDocumentNumber(), createUserRequest.getDocumentTypeId())) {
             throw new IllegalArgumentException("Ya existe un usuario con el mismo documento y tipo de documento");
@@ -172,6 +170,8 @@ public class UserServiceImpl implements UserService {
 
         DocumentType documentType = documentTypeRepository.findById(createUserRequest.getDocumentTypeId())
                 .orElseThrow(() -> new Exception("El tipo de documento no existe"));
+
+
 
         existingUser.setFullName(createUserRequest.getFullName());
         existingUser.setPhone(createUserRequest.getPhone());
@@ -181,7 +181,6 @@ public class UserServiceImpl implements UserService {
         existingUser.setBirthDate(LocalDate.parse(createUserRequest.getBirthDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         existingUser.setCountry(createUserRequest.getCountry());
         existingUser.setAddress(createUserRequest.getAddress());
-
         existingUser = userRepository.save(existingUser);
 
         return UserMapper.toUserResponse(existingUser);

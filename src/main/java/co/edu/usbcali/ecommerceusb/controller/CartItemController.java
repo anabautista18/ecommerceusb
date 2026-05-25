@@ -35,4 +35,15 @@ public class CartItemController {
     public ResponseEntity<CartItemResponse> updateCartItem(@PathVariable Long id, @RequestBody CartItemRequest request) {
         return new ResponseEntity<>(cartItemService.update(id, request), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        if (!cartItemRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        cartItemRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

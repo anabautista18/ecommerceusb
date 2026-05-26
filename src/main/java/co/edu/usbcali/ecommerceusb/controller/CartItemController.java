@@ -36,14 +36,18 @@ public class CartItemController {
         return new ResponseEntity<>(cartItemService.update(id, request), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
-        cartItemService.delete(id);
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
+        cartItemService.deleteById(id);
         return new ResponseEntity<>(
-                "Registro eliminado OK",
-                HttpStatus.OK
+            "Registro eliminado OK",
+            HttpStatus.OK
         );
-    }
+        }
 
 
 }
+
+
+

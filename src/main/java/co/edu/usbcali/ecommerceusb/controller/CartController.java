@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/carts")
 @RequiredArgsConstructor
 public class CartController {
-    private final CartServic0e cartService;
+    private final CartService cartService;
 
     @GetMapping
     public ResponseEntity<List<CartResponse>> getAllCarts() {
@@ -36,16 +36,20 @@ public class CartController {
         return new ResponseEntity<>(cartService.update(id, request), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
+
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<String> delete(@PathVariable Long id) throws Exception {
 
         cartService.deleteById(id);
 
         return new ResponseEntity<>(
-                "Registro eliminado correctamente",
-                HttpStatus.OK
+            "Registro eliminado correctamente",
+            HttpStatus.OK
         );
-    }
-
+        }
 
 }
+
+
+

@@ -40,10 +40,15 @@ public class DocumentTypeController {
         return new ResponseEntity<>(documentTypeService.update(id, request), HttpStatus.OK);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDocumentType(@PathVariable Long id) {
         documentTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
+
+
+
+
 

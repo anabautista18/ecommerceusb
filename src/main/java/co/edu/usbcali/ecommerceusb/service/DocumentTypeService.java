@@ -10,5 +10,6 @@ public interface DocumentTypeService {
     DocumentTypeResponse getDocumentTypeById(Long id);
     DocumentTypeResponse save(DocumentTypeRequest documentTypeRequest);
     DocumentTypeResponse update(Long id, DocumentTypeRequest documentTypeRequest);
+    void deleteById(Long id);
     DocumentTypeResponse getDocumentTypeByCode(String code);
 } 

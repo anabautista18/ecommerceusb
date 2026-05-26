@@ -9,4 +9,5 @@ public interface CartService {
     CartResponse getCartById(Long id);
     CartResponse save(CartRequest cartRequest);
     CartResponse update(Long id, CartRequest cartRequest);
+    void deleteById(Long id);
 }

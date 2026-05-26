@@ -38,10 +38,7 @@ public class PaymentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!paymentRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        paymentRepository.deleteById(id);
+        paymentService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

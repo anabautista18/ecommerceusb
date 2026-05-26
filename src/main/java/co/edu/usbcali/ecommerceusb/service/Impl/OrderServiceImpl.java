@@ -80,6 +80,14 @@ public class OrderServiceImpl implements OrderService {
         return OrderMapper.toOrderResponse(orderRepository.save(existingOrder));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "orden");
+        Order existingOrder = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Orden no encontrada con el id: %d", id)));
+        orderRepository.delete(existingOrder);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

@@ -36,11 +36,8 @@ public class ProductController {
         return new ResponseEntity<>(productService.update(id, request), HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        if (!productRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        productRepository.deleteById(id);
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) throws Exception {
+        productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

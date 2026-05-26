@@ -69,6 +69,14 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return ProductCategoryMapper.toProductCategoryResponse(productCategoryRepository.save(existingProductCategory));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "categoria de producto");
+        ProductCategory existingProductCategory = productCategoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Categoria de producto no encontrada con el id: %d", id)));
+        productCategoryRepository.delete(existingProductCategory);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

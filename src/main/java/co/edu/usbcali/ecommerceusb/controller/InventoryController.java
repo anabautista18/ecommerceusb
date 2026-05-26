@@ -38,12 +38,8 @@ public class InventoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInventory(@PathVariable Long id) {
-        if (!inventoryRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        inventoryRepository.deleteById(id);
+        inventoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    
 }

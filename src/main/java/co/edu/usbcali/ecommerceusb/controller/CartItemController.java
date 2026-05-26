@@ -37,12 +37,12 @@ public class CartItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!cartItemRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        cartItemRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> delete(@PathVariable Integer id) throws Exception {
+        cartItemService.delete(id);
+        return new ResponseEntity<>(
+                "Registro eliminado OK",
+                HttpStatus.OK
+        );
     }
 
 

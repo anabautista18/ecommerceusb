@@ -9,4 +9,5 @@ public interface CategoryService {
     CategoryResponse getCategoryById(Long id);
     CategoryResponse save(CategoryRequest categoryRequest);
     CategoryResponse update(Long id, CategoryRequest categoryRequest);
+    void deleteById(Long id);
 }

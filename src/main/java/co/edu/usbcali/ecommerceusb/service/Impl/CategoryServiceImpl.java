@@ -66,6 +66,14 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.toCategoryResponse(categoryRepository.save(existingCategory));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "categoria");
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Categoria no encontrada con el id: %d", id)));
+        categoryRepository.delete(existingCategory);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para buscar " + name);

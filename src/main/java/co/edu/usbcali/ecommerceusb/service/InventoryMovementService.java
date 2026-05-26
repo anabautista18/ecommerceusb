@@ -9,4 +9,5 @@ public interface InventoryMovementService {
     InventoryMovementResponse getInventoryMovementById(Long id);
     InventoryMovementResponse save(InventoryMovementRequest inventoryMovementRequest);
     InventoryMovementResponse update(Long id, InventoryMovementRequest inventoryMovementRequest);
+    void deleteById(Long id);
 }

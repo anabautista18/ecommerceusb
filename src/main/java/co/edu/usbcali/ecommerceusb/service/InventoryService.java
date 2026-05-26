@@ -9,4 +9,5 @@ public interface InventoryService {
     InventoryResponse getInventoryById(Long id);
     InventoryResponse save(InventoryRequest inventoryRequest);
     InventoryResponse update(Long id, InventoryRequest inventoryRequest);
+    void deleteById(Long id);
 }

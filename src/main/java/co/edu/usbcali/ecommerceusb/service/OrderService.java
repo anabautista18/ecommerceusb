@@ -9,4 +9,5 @@ public interface OrderService {
     OrderResponse getOrderById(Long id);
     OrderResponse save(OrderRequest orderRequest);
     OrderResponse update(Long id, OrderRequest orderRequest);
+    void deleteById(Long id);
 }

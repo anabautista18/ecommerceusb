@@ -185,4 +185,14 @@ public class UserServiceImpl implements UserService {
 
         return UserMapper.toUserResponse(existingUser);
     }
+
+    @Override
+    public void deleteById(Long id) throws Exception {
+        if (id == null) {
+            throw new IllegalArgumentException("Debe ingresar el id para borrar");
+        }
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new Exception(String.format("Usuario no encontrado con el id: %d", id)));
+        userRepository.delete(existingUser);
+    }
 }

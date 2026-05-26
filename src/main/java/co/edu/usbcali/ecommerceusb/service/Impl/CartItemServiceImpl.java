@@ -75,6 +75,14 @@ public class CartItemServiceImpl implements CartItemService {
         return CartItemMapper.toCartItemResponse(cartItemRepository.save(existingCartItem));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "item de carrito");
+        CartItem existingCartItem = cartItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Item de carrito no encontrado con el id: %d", id)));
+        cartItemRepository.delete(existingCartItem);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

@@ -9,4 +9,5 @@ public interface ProductCategoryService {
     ProductCategoryResponse getProductCategoryById(Long id);
     ProductCategoryResponse save(ProductCategoryRequest productCategoryRequest);
     ProductCategoryResponse update(Long id, ProductCategoryRequest productCategoryRequest);
+    void deleteById(Long id);
 }

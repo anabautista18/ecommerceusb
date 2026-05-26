@@ -9,4 +9,5 @@ public interface CartItemService {
     CartItemResponse getCartItemById(Long id);
     CartItemResponse save(CartItemRequest cartItemRequest);
     CartItemResponse update(Long id, CartItemRequest cartItemRequest);
+    void deleteById(Long id);
 }

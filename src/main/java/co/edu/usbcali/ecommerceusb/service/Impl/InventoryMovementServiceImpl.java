@@ -73,6 +73,14 @@ public class InventoryMovementServiceImpl implements InventoryMovementService {
         return InventoryMovementMapper.toInventoryMovementResponse(inventoryMovementRepository.save(existingMovement));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "movimiento de inventario");
+        InventoryMovement existingMovement = inventoryMovementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Movimiento de inventario no encontrado con el id: %d", id)));
+        inventoryMovementRepository.delete(existingMovement);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

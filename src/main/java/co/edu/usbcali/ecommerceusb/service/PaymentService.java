@@ -9,4 +9,5 @@ public interface PaymentService {
     PaymentResponse getPaymentById(Long id);
     PaymentResponse save(PaymentRequest paymentRequest);
     PaymentResponse update(Long id, PaymentRequest paymentRequest);
+    void deleteById(Long id);
 }

@@ -42,10 +42,7 @@ public class DocumentTypeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDocumentType(@PathVariable Long id) {
-        if (!documentTypeRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        documentTypeRepository.deleteById(id);
+        documentTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -12,4 +12,5 @@ public interface UserService {
 
     UserResponse createUser(CreateUserRequest createUserRequest) throws Exception;
     UserResponse updateUser(Long id, CreateUserRequest createUserRequest) throws Exception;
+    void deleteById(Long id) throws Exception;
 }

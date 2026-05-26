@@ -7,6 +7,7 @@ import co.edu.usbcali.ecommerceusb.model.Product;
 import co.edu.usbcali.ecommerceusb.repository.ProductRepository;
 import co.edu.usbcali.ecommerceusb.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -69,6 +70,15 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setPrice(request.getPrice());
         existingProduct.setAvailable(request.getAvailable());
         return ProductMapper.toProductResponse(productRepository.save(existingProduct));
+    }
+
+    @Override
+    public void deleteById(Long id) throws Exception {
+        validateId(id);
+        if (!productRepository.existsById(id)) {
+            throw new Exception("No se ha encontrado el Producto con id "+id);
+        }
+        productRepository.deleteById(id);
     }
 
     private void validateId(Long id) {

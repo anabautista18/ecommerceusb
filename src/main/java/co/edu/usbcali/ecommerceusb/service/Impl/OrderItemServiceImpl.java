@@ -83,6 +83,14 @@ public class OrderItemServiceImpl implements OrderItemService {
         return OrderItemMapper.toOrderItemResponse(orderItemRepository.save(existingOrderItem));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "item de orden");
+        OrderItem existingOrderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Item de orden no encontrado con el id: %d", id)));
+        orderItemRepository.delete(existingOrderItem);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

@@ -65,6 +65,14 @@ public class InventoryServiceImpl implements InventoryService {
         return InventoryMapper.toInventoryResponse(inventoryRepository.save(existingInventory));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "inventario");
+        Inventory existingInventory = inventoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Inventario no encontrado con el id: %d", id)));
+        inventoryRepository.delete(existingInventory);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

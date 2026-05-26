@@ -38,10 +38,7 @@ public class OrderItemController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!orderItemRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        orderItemRepository.deleteById(id);
+        orderItemService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

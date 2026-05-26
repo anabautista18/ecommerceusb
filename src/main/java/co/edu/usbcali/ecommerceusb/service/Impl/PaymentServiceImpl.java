@@ -80,6 +80,14 @@ public class PaymentServiceImpl implements PaymentService {
         return PaymentMapper.toPaymentResponse(paymentRepository.save(existingPayment));
     }
 
+    @Override
+    public void deleteById(Long id) {
+        validateId(id, "pago");
+        Payment existingPayment = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Pago no encontrado con el id: %d", id)));
+        paymentRepository.delete(existingPayment);
+    }
+
     private void validateId(Long id, String name) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("Debe ingresar un id valido para " + name);

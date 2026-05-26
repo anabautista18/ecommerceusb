@@ -9,4 +9,5 @@ public interface ProductService {
     ProductResponse getProductById(Long id);
     ProductResponse save(ProductRequest productRequest);
     ProductResponse update(Long id, ProductRequest productRequest);
+    void deleteById(Long id) throws Exception;
 }

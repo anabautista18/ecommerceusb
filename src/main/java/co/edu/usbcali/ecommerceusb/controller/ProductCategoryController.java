@@ -38,12 +38,9 @@ public class ProductCategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (!productCategoryRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        productCategoryRepository.deleteById(id);
+        productCategoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-
 }
+

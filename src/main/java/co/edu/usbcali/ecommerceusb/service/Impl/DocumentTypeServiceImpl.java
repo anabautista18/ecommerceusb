@@ -87,6 +87,16 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("Debe ingresar un id valido para borrar tipo de documento");
+        }
+        DocumentType existingDocumentType = documentTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(String.format("Tipo de documento no encontrado con el id: %d", id)));
+        documentTypeRepository.delete(existingDocumentType);
+    }
+
+    @Override
     public DocumentTypeResponse getDocumentTypeByCode(String code) {
         if (code == null || code.isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar el código para buscar");
